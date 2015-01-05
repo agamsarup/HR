@@ -23,7 +23,44 @@ public class MaxRectangleInHist {
 
 		int maxArea = 0;
 		int top;
-		int i=0;
+		int i = 0;
+		for (; i < n; i++) {
+			if (stack.isEmpty() || arr[i] >= arr[stack.peekFirst()])
+				stack.addFirst(i);
+			else if (arr[i] < arr[stack.peekFirst()]) {
+				while (!stack.isEmpty() && arr[i] < arr[stack.peekFirst()]) {
+					top = stack.pollFirst();
+					maxArea = Math
+							.max(maxArea,
+									arr[top]
+											* (stack.isEmpty() ? i : i
+													- stack.peekFirst() - 1));
+//					System.out.println(maxArea+" "+stack.toString());
+				}
+				stack.addFirst(i);
+			}
+			System.out.println(maxArea+" "+stack.toString());
+		}
+		while (!stack.isEmpty()) {
+			top = stack.pollFirst();
+			maxArea = Math.max(maxArea, arr[top]
+					* (stack.isEmpty() ? i : i - stack.peekFirst() - 1));
+
+		}
+
+		System.out.println(maxArea);
+	}
+
+	static void solve1() {
+
+		int n = ni();
+		int[] arr = na(n);
+
+		Deque<Integer> stack = new LinkedList<Integer>();
+
+		int maxArea = 0;
+		int top;
+		int i = 0;
 		for (; i < n; i++) {
 			if (stack.isEmpty())
 				stack.addFirst(i);
@@ -35,21 +72,25 @@ public class MaxRectangleInHist {
 					do {
 						top = stack.pollFirst();
 						if (stack.isEmpty()) {
-							maxArea=Math.max(maxArea, arr[top]*(top+1));
-							System.out.println(maxArea+" "+stack.toString());
+							maxArea = Math.max(maxArea, arr[top] * (top + 1));
+							System.out
+									.println(maxArea + " " + stack.toString());
 						} else {
 							int start = stack.peekFirst();
-							if(arr[start]==arr[top])
-								maxArea=Math.max(maxArea, arr[top]*(i-1-start+1));
+							if (arr[start] == arr[top])
+								maxArea = Math.max(maxArea, arr[top]
+										* (i - 1 - start + 1));
 							else
-								maxArea=Math.max(maxArea, arr[top]*(i-1-start));
-							System.out.println(maxArea+" "+stack.toString());
+								maxArea = Math.max(maxArea, arr[top]
+										* (i - 1 - start));
+							System.out
+									.println(maxArea + " " + stack.toString());
 						}
 					} while (!stack.isEmpty()
 							&& arr[stack.peekFirst()] > arr[i]);
-					if(stack.isEmpty())
+					if (stack.isEmpty())
 						stack.addFirst(i);
-					else if(arr[stack.peekFirst()]!= arr[i])
+					else if (arr[stack.peekFirst()] != arr[i])
 						stack.addFirst(i);
 					System.out.println(stack.toString());
 				}
@@ -60,19 +101,19 @@ public class MaxRectangleInHist {
 		do {
 			top = stack.pollFirst();
 			if (stack.isEmpty()) {
-				maxArea=Math.max(maxArea, arr[top]*(top+1));
-				System.out.println(maxArea+" "+stack.toString());
+				maxArea = Math.max(maxArea, arr[top] * (top + 1));
+				System.out.println(maxArea + " " + stack.toString());
 			} else {
 				int start = stack.peekFirst();
-				if(arr[start]==arr[top])
-					maxArea=Math.max(maxArea, arr[top]*(i-1-start+1));
+				if (arr[start] == arr[top])
+					maxArea = Math.max(maxArea, arr[top] * (i - 1 - start + 1));
 				else
-					maxArea=Math.max(maxArea, arr[top]*(i-1-start));
-				System.out.println(maxArea+" "+stack.toString());
+					maxArea = Math.max(maxArea, arr[top] * (i - 1 - start));
+				System.out.println(maxArea + " " + stack.toString());
 			}
 		} while (!stack.isEmpty());
-		
-		System.out.println(maxArea+" "+stack.toString());
+
+		System.out.println(maxArea + " " + stack.toString());
 	}
 
 	public static void main(String[] args) throws Exception {
